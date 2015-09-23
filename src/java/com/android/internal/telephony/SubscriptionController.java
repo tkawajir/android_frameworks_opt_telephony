@@ -680,15 +680,6 @@ public class SubscriptionController extends ISub.Stub {
         return mTelephonyManager.getSimCount();
     }
 
-    public boolean needsOldRilFeature(String feature) {
-        String[] features = SystemProperties.get("ro.telephony.ril.config", "").split(",");
-        for (String found: features) {
-            if (found.equals(feature))
-                return true;
-        }
-        return false;
-    }
-
     /**
      * Add a new SubInfoRecord to subinfo database if needed
      * @param context Context provided by caller
@@ -828,9 +819,7 @@ public class SubscriptionController extends ISub.Stub {
                             if (DBG) {
                                 logdl("[addSubInfoRecord] one sim set defaults to subId=" + subId);
                             }
-                            if (!needsOldRilFeature("nodefaultdata")) {
-                                setDefaultDataSubId(subId);
-                            }
+                            setDefaultDataSubId(subId);
                             setDataSubId(subId);
                             setDefaultSmsSubId(subId);
                             setDefaultVoiceSubId(subId);
